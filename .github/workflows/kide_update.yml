@@ -1,1 +1,31 @@
+name: Kide.app Helsinki -päivitys (2x viikossa)
 
+on:
+  schedule:
+    # Maanantai klo 11:00 Suomen aikaa (9:00 UTC)
+    - cron: '0 9 * * 1'
+    # Torstai klo 11:00 Suomen aikaa (9:00 UTC)
+    - cron: '0 9 * * 4'
+  
+  workflow_dispatch:
+
+jobs:
+  update-discord:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: pip install discord.py requests
+    
+    - name: Run update
+      env:
+        DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+      run: python kide_update.py
