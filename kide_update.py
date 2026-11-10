@@ -121,7 +121,7 @@ async def on_ready():
     print(f"✅ Kirjauduttu: {client.user}")
     
     try:
-        channel = await client.fetch_channel(CHANNEL_ID)
+                channel = await client.fetch_channel(CHANNEL_ID)
     except discord.NotFound:
         print("❌ Kanavaa ei löytynyt! Tarkista CHANNEL_ID.")
         await client.close()
