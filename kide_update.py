@@ -120,9 +120,14 @@ client = discord.Client(intents=intents)
 async def on_ready():
     print(f"✅ Kirjauduttu: {client.user}")
     
-    channel = client.get_channel(CHANNEL_ID)
-    if not channel:
-        print("❌ Kanavaa ei löytynyt!")
+  try:
+        channel = await client.fetch_channel(CHANNEL_ID)
+    except discord.NotFound:
+        print("❌ Kanavaa ei löytynyt! Tarkista CHANNEL_ID.")
+        await client.close()
+        return
+    except Exception as e:
+        print(f"❌ Virhe kanavan haussa: {e}")
         await client.close()
         return
     
